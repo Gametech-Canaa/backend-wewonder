@@ -4,7 +4,15 @@ const User = use("App/Models/User");
 
 class AuthController {
   async register({ request }) {
-    const data = request.only(["name", "email", "password", "profile","bio", "whatsapp", "cost"]);
+    const data = request.only([
+      "name",
+      "email",
+      "password",
+      "profile",
+      "bio",
+      "whatsapp",
+      "cost",
+    ]);
 
     const user = await User.create(data);
 
@@ -19,15 +27,14 @@ class AuthController {
     if (!user) {
       return response.status(401).json({ error: "User not found" });
     }
-    const { id, username, goal } = user;
+    const { id, name } = user;
     const { token } = await auth.attempt(email, password);
 
     return response.json({
       user: {
         id,
-        username,
+        name,
         email,
-        goal,
       },
       token,
     });

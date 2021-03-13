@@ -3,10 +3,13 @@
 /** @type {typeof import('@adonisjs/lucid/src/Lucid/Model')} */
 const Model = use("Model");
 
-class Estatistica extends Model {
+class Relations extends Model {
   user() {
     this.hasOne("App/Models/User");
   }
+  class() {
+    this.hasOne("App/Models/Classes");
+  }
 }
 
-module.exports = Estatistica;
+module.exports = Relations;

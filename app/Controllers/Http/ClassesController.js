@@ -1,13 +1,14 @@
 const convertHourToMinutes = require("../../utils/convertHourToMinute");
 const Classes = use("App/Models/Classes");
 const Schedule = use("App/Models/Schedule");
+const Address = use("App/Models/Address");
 const Database = use("Database");
 
 class ClassesController {
   async create({ request, response }) {
-    const data = request.only(["id", "subject", "cost", "schedule"]);
+    const data = request.only(["id", "subject", "cost", "schedule", "cep"]);
 
-    const { id, subject, cost, schedule } = data;
+    const { id, subject, cost, schedule, cep } = data;
 
     const trx = await Database.beginTransaction();
 
@@ -18,6 +19,10 @@ class ClassesController {
         user_id: id,
       });
       const class_id = insertedClassesIds.id;
+      const address = await Address.create({
+        class_id,
+        cep
+      });
       const classSchedule = schedule.map((scheduleItem) => {
         return {
           class_id,
@@ -32,7 +37,7 @@ class ClassesController {
       const schedules = await trx("schedules").insert(classSchedule);
 
       await trx.commit();
-      return response.status(201).send(schedules);
+      return response.status(201).send(class_id, schedules, address);
     } catch (err) {
       await trx.rollback();
       console.log(err);

@@ -19,7 +19,7 @@ const Route = use("Route");
 Route.post("authenticate", "UserController.authenticate");
 Route.post("register", "UserController.store");
 
-Route.post("classes", "ClassesController.create");
+Route.post("classes", "ClassesController.create").middleware(["auth"]);
 
 // Route.get("user", "UserController.index").middleware(["auth"]);
 // Route.put("user", "UserController.update").middleware(["auth"]);

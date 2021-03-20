@@ -5,11 +5,14 @@ const Address = use("App/Models/Address");
 const Database = use("Database");
 
 class ClassesController {
+  async index({ request, response, auth }) {
+    const data = request.only(["classId"]);
+  }
+
   async create({ request, response, auth }) {
     const data = request.only(["subject", "cost", "schedule", "cep"]);
 
     const { subject, cost, schedule, cep } = data;
-
 
     const trx = await Database.beginTransaction();
     const user_id = auth.user.id;
@@ -22,7 +25,7 @@ class ClassesController {
       const class_id = insertedClassesIds.id;
       const address = await Address.create({
         class_id,
-        cep
+        cep,
       });
       const classSchedule = schedule.map((scheduleItem) => {
         return {

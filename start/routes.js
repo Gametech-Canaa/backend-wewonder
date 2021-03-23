@@ -25,6 +25,21 @@ Route.get("classes/:id", "ClassesController.show").middleware(["auth"]);
 
 Route.get("addresses", "AddressController.index").middleware(["auth"]);
 
+Route.post("relations", "RelationsController.create").middleware(["auth"]);
+Route.get(
+  "relations/:classId",
+  "RelationsController.showUsersByGroup"
+).middleware(["auth"]);
+
+Route.get("relations", "RelationsController.showGroupsByUser").middleware([
+  "auth",
+]);
+
+Route.delete("relations/:id", "RelationsController.delete").middleware([
+  "auth",
+]);
+Route.put("relations/:id", "RelationsController.favorite").middleware(["auth"]);
+
 // Route.get("user", "UserController.index").middleware(["auth"]);
 // Route.put("user", "UserController.update").middleware(["auth"]);
 

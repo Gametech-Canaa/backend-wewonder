@@ -73,7 +73,6 @@ class ClassesController {
       return response.status(201).send(class_id, schedules, address);
     } catch (err) {
       await trx.rollback();
-      console.log(err);
       return response.status(400).json({
         error: err,
       });

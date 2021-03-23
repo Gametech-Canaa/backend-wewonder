@@ -1,18 +1,43 @@
 const convertHourToMinutes = require("../../utils/convertHourToMinute");
 const Classes = use("App/Models/Classes");
 const Schedule = use("App/Models/Schedule");
+const Users = use("App/Models/User");
 const Address = use("App/Models/Address");
 const Database = use("Database");
 
 class ClassesController {
   async index({ request, response, auth }) {
-    const data = request.only(["classId"]);
+    const data = request.only([]);
+  }
+
+  async show({ request, response, auth, params }) {
+    const cl = await Classes.find(params.id);
+    const teacher = await Users.find(cl.user_id);
+    return response.status(200).send([cl, teacher]);
   }
 
   async create({ request, response, auth }) {
-    const data = request.only(["subject", "cost", "schedule", "cep"]);
+    const data = request.only([
+      "subject",
+      "cost",
+      "schedule",
+      "cep",
+      "latitude",
+      "longitude",
+      "limite",
+      "bio",
+    ]);
 
-    const { subject, cost, schedule, cep } = data;
+    const {
+      subject,
+      cost,
+      schedule,
+      cep,
+      latitude,
+      longitude,
+      bio,
+      limite,
+    } = data;
 
     const trx = await Database.beginTransaction();
     const user_id = auth.user.id;
@@ -21,11 +46,15 @@ class ClassesController {
         subject,
         cost,
         user_id,
+        limite,
+        bio,
       });
       const class_id = insertedClassesIds.id;
       const address = await Address.create({
         class_id,
         cep,
+        latitude: String(latitude),
+        longitude: String(longitude),
       });
       const classSchedule = schedule.map((scheduleItem) => {
         return {

@@ -8,13 +8,15 @@ class AddressSchema extends Schema {
     this.create("addresses", (table) => {
       table.increments();
       table
-      .integer("class_id")
-      .notNullable()
-      .references("id")
-      .inTable("classes")
-      .onUpdate("CASCADE")
-      .onDelete("CASCADE");
+        .integer("class_id")
+        .notNullable()
+        .references("id")
+        .inTable("classes")
+        .onUpdate("CASCADE")
+        .onDelete("CASCADE");
       table.string("cep").nullable();
+      table.string("latitude").nullable();
+      table.string("longitude").nullable();
 
       table.timestamps();
     });

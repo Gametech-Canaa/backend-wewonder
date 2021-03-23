@@ -9,6 +9,8 @@ class ClassesSchema extends Schema {
       table.increments();
 
       table.string("subject").notNullable();
+      table.string("bio").notNullable();
+      table.string("limite").notNullable();
       table.decimal("cost");
 
       table

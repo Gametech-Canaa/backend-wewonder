@@ -21,6 +21,8 @@ Route.post("register", "UserController.store");
 
 Route.post("classes", "ClassesController.create").middleware(["auth"]);
 Route.get("classes", "ClassesController.index").middleware(["auth"]);
+Route.get("classes/:id", "ClassesController.show").middleware(["auth"]);
+
 Route.get("addresses", "AddressController.index").middleware(["auth"]);
 
 // Route.get("user", "UserController.index").middleware(["auth"]);

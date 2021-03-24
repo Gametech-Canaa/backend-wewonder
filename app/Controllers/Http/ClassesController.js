@@ -1,42 +1,81 @@
-const convertHourToMinutes = require('../../utils/convertHourToMinute');
+const convertHourToMinutes = require("../../utils/convertHourToMinute");
 const Classes = use("App/Models/Classes");
 const Schedule = use("App/Models/Schedule");
+const Users = use("App/Models/User");
+const Address = use("App/Models/Address");
+const Database = use("Database");
 
+class ClassesController {
+  async index({ request, response, auth }) {
+    const data = request.only([]);
+  }
 
- class ClassesController {
-  async create ({request, response}) {
-    
- 
-      const data = request.only(["id", "subject", "cost", "schedule"]);
+  async show({ request, response, auth, params }) {
+    const cl = await Classes.find(params.id);
+    const teacher = await Users.find(cl.user_id);
+    return response.status(200).send([cl, teacher]);
+  }
 
-      const {id, subject, cost, schedule} = data;
-        console.log({id, subject, cost, schedule});
+  async create({ request, response, auth }) {
+    const data = request.only([
+      "subject",
+      "cost",
+      "schedule",
+      "cep",
+      "latitude",
+      "longitude",
+      "limite",
+      "bio",
+    ]);
+
+    const {
+      subject,
+      cost,
+      schedule,
+      cep,
+      latitude,
+      longitude,
+      bio,
+      limite,
+    } = data;
+
+    const trx = await Database.beginTransaction();
+    const user_id = auth.user.id;
     try {
-        
       const insertedClassesIds = await Classes.create({
         subject,
         cost,
-        user_id:id,
+        user_id,
+        limite,
+        bio,
       });
       const class_id = insertedClassesIds.id;
-      const classSchedule = schedule.map((scheduleItem) => {
-       return { 
+      const address = await Address.create({
         class_id,
-        week_day: scheduleItem.week_day,
-        from: convertHourToMinutes(scheduleItem.from),
-        to: convertHourToMinutes(scheduleItem.to)
-       }
-      })
-      const test = classSchedule.map((dado) => {
-          console.log(dado)
-          const a = await Schedule.create(dado)
-        });
-  
-      return response.status(201);
+        cep,
+        latitude: String(latitude),
+        longitude: String(longitude),
+      });
+      const classSchedule = schedule.map((scheduleItem) => {
+        return {
+          class_id,
+          week_day: Number(scheduleItem.week_day),
+          from: convertHourToMinutes(scheduleItem.from),
+          to: convertHourToMinutes(scheduleItem.to),
+          created_at: new Date(),
+          updated_at: new Date(),
+        };
+      });
+
+      const schedules = await trx("schedules").insert(classSchedule);
+
+      await trx.commit();
+      return response.status(201).send(class_id, schedules, address);
     } catch (err) {
+      await trx.rollback();
       return response.status(400).json({
-        error: 'Unexpected error while creating new class'
-      })
+        error: err,
+      });
     }
   }
 }

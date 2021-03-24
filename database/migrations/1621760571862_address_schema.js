@@ -7,12 +7,17 @@ class AddressSchema extends Schema {
   up() {
     this.create("addresses", (table) => {
       table.increments();
-      table.integer("user_id").references("users.id");
+      table
+        .integer("class_id")
+        .notNullable()
+        .references("id")
+        .inTable("classes")
+        .onUpdate("CASCADE")
+        .onDelete("CASCADE");
       table.string("cep").nullable();
-      table.string("logradouro").nullable();
-      table.string("complemento").nullable();
-      table.string("uf").nullable();
-      table.string("cidade").nullable();
+      table.string("latitude").nullable();
+      table.string("longitude").nullable();
+
       table.timestamps();
     });
   }

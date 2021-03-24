@@ -3,7 +3,7 @@ const Address = use("App/Models/Address");
 
 class AddressController {
   async index({ request, auth }) {
-    const address = await Address.findBy("user_id", auth.user.id);
+    const address = await Address.all();
     return address;
   }
 

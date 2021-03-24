@@ -4,8 +4,8 @@
 const Model = use("Model");
 
 class Address extends Model {
-  user() {
-    this.hasOne("App/Models/User");
+  class() {
+    this.hasOne("App/Models/Classes");
   }
 }
 

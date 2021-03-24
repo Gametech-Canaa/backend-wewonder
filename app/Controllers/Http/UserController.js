@@ -3,8 +3,38 @@ const User = use("App/Models/User");
 const Address = use("App/Models/Address");
 
 class UserController {
+  async authenticate({ request, auth, response }) {
+    const { email, password } = request.all();
+
+    const user = await User.findBy("email", email);
+
+    if (!user) {
+      return response.status(401).json({ error: "User not found" });
+    }
+    const { id, name, profile } = user;
+    const { token } = await auth.attempt(email, password);
+
+    return response.json({
+      user: {
+        id,
+        profile,
+        name,
+        email,
+      },
+      token,
+    });
+  }
+
   async store({ request }) {
-    const data = request.only(["name", "email", "password", "profile","bio", "whatsapp", "cost"]);
+    const data = request.only([
+      "name",
+      "email",
+      "password",
+      "profile",
+      "bio",
+      "whatsapp",
+      "cost",
+    ]);
 
     const user = await User.create(data);
     return user;

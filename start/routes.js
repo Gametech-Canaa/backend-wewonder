@@ -39,7 +39,7 @@ Route.delete("relations/:id", "RelationsController.delete").middleware([
   "auth",
 ]);
 Route.put("relations/:id", "RelationsController.favorite").middleware(["auth"]);
-
+Route.get("filter", "FiltersController.index").middleware(["auth"]);
 // Route.get("user", "UserController.index").middleware(["auth"]);
 // Route.put("user", "UserController.update").middleware(["auth"]);
 

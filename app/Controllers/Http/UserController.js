@@ -46,18 +46,28 @@ class UserController {
   }
 
   async update({ request, auth }) {
-    const { email, username, birthDate, mobilePhone, cpf } = request.all();
+    const { name, whatsapp, profile, bio } = request.all();
     const user = await User.findBy("id", auth.user.id);
-    user.email = email;
-    user.username = username;
-    user.birthDate = birthDate;
-    user.mobilePhone = mobilePhone;
-    user.cpf = cpf;
+    user.name = name;
+    user.whatsapp = whatsapp;
+    user.profile = profile;
+    user.bio = bio;
     await user.save();
 
     const newUser = await User.findBy("id", auth.user.id);
 
     return { newUser };
+  }
+  async show({ request, auth, params }) {
+    const user = await User.findBy("id", params.id);
+    return {
+      id: user.id,
+      profile: user.profile,
+      bio: user.bio,
+      whatsapp: user.whatsapp,
+      email: user.email,
+      name: user.name,
+    };
   }
 }
 

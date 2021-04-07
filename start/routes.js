@@ -18,6 +18,8 @@ const Route = use("Route");
 
 Route.post("authenticate", "UserController.authenticate");
 Route.post("register", "UserController.store");
+Route.get("user/:id", "UserController.show").middleware(["auth"]);
+Route.put("user/:id", "UserController.update").middleware(["auth"]);
 
 Route.post("classes", "ClassesController.create").middleware(["auth"]);
 Route.get("classes", "ClassesController.index").middleware(["auth"]);
@@ -39,7 +41,7 @@ Route.delete("relations/:id", "RelationsController.delete").middleware([
   "auth",
 ]);
 Route.put("relations/:id", "RelationsController.favorite").middleware(["auth"]);
-
+Route.get("filter", "FiltersController.index").middleware(["auth"]);
 // Route.get("user", "UserController.index").middleware(["auth"]);
 // Route.put("user", "UserController.update").middleware(["auth"]);
 

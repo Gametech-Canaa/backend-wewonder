@@ -42,6 +42,6 @@ Route.delete("relations/:id", "RelationsController.delete").middleware([
 ]);
 Route.put("relations/:id", "RelationsController.favorite").middleware(["auth"]);
 Route.get("filter", "FiltersController.index").middleware(["auth"]);
-Route.get("/", (response) => {
+Route.get("/", ({ response }) => {
   response.json({ message: "Working..." });
 });

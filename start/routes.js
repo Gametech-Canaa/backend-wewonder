@@ -42,25 +42,6 @@ Route.delete("relations/:id", "RelationsController.delete").middleware([
 ]);
 Route.put("relations/:id", "RelationsController.favorite").middleware(["auth"]);
 Route.get("filter", "FiltersController.index").middleware(["auth"]);
-// Route.get("user", "UserController.index").middleware(["auth"]);
-// Route.put("user", "UserController.update").middleware(["auth"]);
-
-// Route.put("address", "AddressController.update").middleware(["auth"]);
-// Route.get("address", "AddressController.index").middleware(["auth"]);
-
-// Route.put("vehicle", "VehicleController.update").middleware(["auth"]);
-// Route.get("vehicle", "VehicleController.index").middleware(["auth"]);
-
-// Route.put("estatistica", "EstatisticaController.redefinirMeta").middleware([
-//   "auth",
-// ]);
-// Route.post("estatistica", "EstatisticaController.lancamentoDiario").middleware([
-//   "auth",
-// ]);
-// Route.get("estatistica", "EstatisticaController.montarGrafico").middleware([
-//   "auth",
-// ]);
-
-// Route.get("estatistica/:id", "EstatisticaController.calcularLucro").middleware([
-//   "auth",
-// ]);
+Route.get("/", (response) => {
+  response.json({ message: "Working..." });
+});

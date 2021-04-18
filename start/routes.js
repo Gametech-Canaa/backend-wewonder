@@ -40,6 +40,9 @@ Route.get("relations", "RelationsController.showGroupsByUser").middleware([
 Route.delete("relations/:id", "RelationsController.delete").middleware([
   "auth",
 ]);
+
+Route.get("connections", "ConnectionController.index");
+
 Route.put("relations/:id", "RelationsController.favorite").middleware(["auth"]);
 Route.get("filter", "FiltersController.index").middleware(["auth"]);
 Route.get("/", ({ response }) => {

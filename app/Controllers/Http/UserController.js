@@ -34,6 +34,8 @@ class UserController {
       "bio",
       "whatsapp",
       "cost",
+      "cpf",
+      "cref",
     ]);
 
     const user = await User.create(data);
@@ -67,6 +69,8 @@ class UserController {
       whatsapp: user.whatsapp,
       email: user.email,
       name: user.name,
+      cpf: user.cpf,
+      cref: user.cref ? user.cref : null,
     };
   }
 }

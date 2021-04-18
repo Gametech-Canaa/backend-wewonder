@@ -12,6 +12,8 @@ class UserSchema extends Schema {
       table.string("password", 60).notNullable();
       table.string("profile", 2).notNullable();
       table.string("bio", 254);
+      table.string("cref", 254);
+      table.string("cpf", 254).notNullable();
       table.string("whatsapp", 254).notNullable();
       table.timestamps();
     });

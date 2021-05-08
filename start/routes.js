@@ -24,6 +24,7 @@ Route.put("user/:id", "UserController.update").middleware(["auth"]);
 Route.post("classes", "ClassesController.create").middleware(["auth"]);
 Route.get("classes", "ClassesController.index").middleware(["auth"]);
 Route.get("classes/:id", "ClassesController.show").middleware(["auth"]);
+Route.delete("classes/:id", "ClassesController.delete").middleware(["auth"]);
 
 Route.get("addresses", "AddressController.index").middleware(["auth"]);
 

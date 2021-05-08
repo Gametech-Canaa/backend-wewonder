@@ -78,6 +78,22 @@ class ClassesController {
       });
     }
   }
+
+  async delete({request, response,params}){
+    try{
+    const trx = await Database.beginTransaction();
+    const group = await Database.table("classes")
+    .where({ id: params.id})
+    .delete();
+      await trx.commit();
+      return response.status(200).json(group);
+    }catch(err){
+      await  trx.rollback();
+      return response.status(400).json({
+        error: err,
+      }); 
+    }
+  }
 }
 
 module.exports = ClassesController;

@@ -7,6 +7,9 @@ class Classes extends Model {
   user() {
     this.hasOne("App/Models/User");
   }
+  modality() {
+    this.hasOne("App/Models/Modality");
+  }
 }
 
 module.exports = Classes;

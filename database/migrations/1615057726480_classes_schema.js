@@ -7,8 +7,13 @@ class ClassesSchema extends Schema {
   up() {
     this.create("classes", (table) => {
       table.increments();
-
-      table.string("subject").notNullable();
+      table
+        .integer("subject")
+        .notNullable()
+        .references("id")
+        .inTable("modalities")
+        .onUpdate("CASCADE")
+        .onDelete("CASCADE");
       table.string("bio").notNullable();
       table.string("limite").notNullable();
       table.decimal("cost");

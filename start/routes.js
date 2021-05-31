@@ -46,6 +46,10 @@ Route.get("connections", "ConnectionController.index");
 
 Route.put("relations/:id", "RelationsController.favorite").middleware(["auth"]);
 Route.get("filter", "FiltersController.index").middleware(["auth"]);
+
+Route.post("modalities", "ModalityController.create");
+Route.get("modalities", "ModalityController.list");
+
 Route.get("/", ({ response }) => {
   response.json({ message: "Working..." });
 });

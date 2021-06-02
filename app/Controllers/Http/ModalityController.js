@@ -1,6 +1,7 @@
 "use strict";
 
 const Modality = use("App/Models/Modality");
+const Database = use("Database");
 
 class ModalityController {
   async create({ request, response }) {

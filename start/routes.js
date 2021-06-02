@@ -49,7 +49,7 @@ Route.get("filter", "FiltersController.index").middleware(["auth"]);
 
 Route.post("modalities", "ModalityController.create");
 Route.get("modalities", "ModalityController.list");
-Route.delete("modalities:/id", "ModalityController.delete");
+Route.delete("modalities/:id", "ModalityController.delete");
 
 Route.get("/", ({ response }) => {
   response.json({ message: "Working..." });
